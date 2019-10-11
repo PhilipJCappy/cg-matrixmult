@@ -14,6 +14,10 @@ class Matrix {
 
     set values(v) {
         var i, j, idx;
+		console.log("Rows:" + this.rows)
+		console.log("Columns:" + this.columns)
+		console.log("Rows1:"+ v.length)
+		console.log("Columns1:"+v[0].length)
         // v is already a 2d array with dims equal to rows and columns
         if (v instanceof Array && v.length === this.rows && 
             v[0] instanceof Array && v[0].length === this.columns) {
@@ -31,10 +35,43 @@ class Matrix {
 
     // matrix multiplication (this * rhs)
     mult(rhs) {
-        var result = null;
+        var result=null;
+		result = new Matrix(this.rows, rhs.columns);
         // ensure multiplication is valid
+		//result.rows = this.rows;
+		//result.columns= rhs.columns;
+		//result.data= [];
+		var numbers = new Array(this.rows);
         if (rhs instanceof Matrix && this.columns === rhs.rows) {
-            // implement matrix multiplication here!
+            // implement matrix multiplication here
+			var i;
+			var j;
+			var k;
+			var rowSum;
+			for(i=0; i<this.rows ;i++)
+			{
+				numbers[i]= new Array(rhs.columns);
+			}
+			console.log("Rows2:"+ numbers.length)
+			console.log("Columns2:"+numbers[0].length)
+			for(k=0; k<this.rows; k++){
+				
+				//numbers.push([]);
+				
+				for(i = 0; i<rhs.columns ; i++){
+					rowSum =0;
+					for(j=0; j<rhs.rows; j++){
+
+						rowSum= rowSum + (this.data[k][j]*rhs.data[j][i]);
+						console.log("k: " + k + " i: "+ i + " j: " +j)						
+					}
+					numbers[k][i]=rowSum;
+				}	
+			}
+			console.log("Rows3:"+ numbers.length)
+			console.log("Columns3:"+numbers[0].length)
+			result.values= numbers;
+			
         }
         else {
             console.log("could not multiply - row/column mismatch");
